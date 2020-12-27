@@ -4,7 +4,9 @@
 namespace Laztopaz\Events\Models;
 
 
-class Event
+use Laztopaz\PotatoORM\BaseModel;
+
+class Event extends BaseModel
 {
 
 }
