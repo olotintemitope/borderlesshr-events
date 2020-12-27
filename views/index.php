@@ -1,11 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Event Manager | Home</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
+<?php include_once 'partials/header.php'?>
 <body>
-    <h1>Hello World <?php echo $name; ?></h1>
-</body>
-</html>
+<?php include_once 'partials/nav.php' ?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Welcome to Event Manager</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="/events" class="btn btn-primary">Visit Upcoming Events</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php include_once 'partials/footer.php'?>
