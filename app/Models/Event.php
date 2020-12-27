@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Laztopaz\Events\Models;
+namespace Laztopaz\Models;
 
 
 use Laztopaz\PotatoORM\BaseModel;
