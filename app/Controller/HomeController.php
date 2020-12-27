@@ -2,8 +2,7 @@
 
 namespace Laztopaz\Controller;
 
-use Laztopaz\Lib\BaseController;
-use Laztopaz\Lib\Request;
+use Laztopaz\Models\User;
 
 class HomeController extends BaseController
 {
@@ -15,6 +14,11 @@ class HomeController extends BaseController
     }
 
     public function loginAction()
+    {
+        $this->render('auth/login');
+    }
+
+    public function processLoginAction()
     {
         $this->render('auth/login');
     }

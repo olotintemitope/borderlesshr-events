@@ -1,12 +1,21 @@
 <?php
 
 
-namespace Laztopaz\Lib;
+namespace Laztopaz\Controller;
 
+
+use Laztopaz\Lib\DatabaseConnection;
 
 class BaseController
 {
     const EXTENSION = ".php";
+
+    public $db = null;
+
+    public function __construct()
+    {
+        $this->db = new DatabaseConnection();
+    }
 
     public function render($filePath, $variables = [], $print = true)
     {

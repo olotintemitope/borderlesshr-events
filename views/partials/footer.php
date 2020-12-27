@@ -1,5 +1,5 @@
 <footer class="fixed-bottom text-center">
-    &copy <?php echo date('Y');?> The event managers
+    &copy <?php echo date('Y'); ?> The event managers
 </footer>
 </body>
 </html>
