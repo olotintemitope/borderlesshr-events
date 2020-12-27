@@ -13,13 +13,14 @@ class Request
         $this->contentType = !empty($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
     }
 
-    public function getBody()
+    public function getBody(): array
     {
         if ($this->reqMethod !== 'POST') {
             return '';
         }
 
         $body = [];
+
         foreach ($_POST as $key => $value) {
             $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
         }
@@ -27,7 +28,7 @@ class Request
         return $body;
     }
 
-    public function getJSON(): array
+    public function getJSON()
     {
         $request = [];
         if ($this->reqMethod !== 'POST') {

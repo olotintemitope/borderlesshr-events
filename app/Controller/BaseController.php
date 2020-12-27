@@ -4,17 +4,17 @@
 namespace Laztopaz\Controller;
 
 
+use Exception;
 use Laztopaz\Lib\DatabaseConnection;
 
 class BaseController
 {
     const EXTENSION = ".php";
-
     public $db = null;
 
     public function __construct()
     {
-        $this->db = new DatabaseConnection();
+        $this->db = (new DatabaseConnection)->connect();
     }
 
     public function render($filePath, $variables = [], $print = true)

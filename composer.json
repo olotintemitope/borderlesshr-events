@@ -29,7 +29,8 @@
     "vlucas/phpdotenv": "^2.2",
     "satooshi/php-coveralls": "^1.0",
     "laztopaz/potato-orm": "dev-test",
-    "monolog/monolog": "^1.25.1"
+    "monolog/monolog": "^1.25.1",
+    "ext-pdo": "*"
   },
   "require-dev":{
     "phpunit/phpunit": "^9.0",
