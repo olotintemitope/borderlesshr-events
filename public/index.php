@@ -11,3 +11,7 @@ use Laztopaz\Lib\Response;
 Router::get('/', function () {
    (new HomeController())->indexAction();
 });
+
+Router::get('/auth/login', function () {
+    (new HomeController())->loginAction();
+});

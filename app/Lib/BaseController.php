@@ -13,6 +13,7 @@ class BaseController
         $output = NULL;
 
         $baseViewPath = dirname(__DIR__) . "/../views/" . $filePath . self::EXTENSION;
+        $variables['viewPath'] = dirname(__DIR__) . "/../views/";
 
         if (file_exists($baseViewPath)) {
             // Extract the variables to a local namespace

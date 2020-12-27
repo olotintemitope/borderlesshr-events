@@ -13,4 +13,9 @@ class HomeController extends BaseController
             'name' => 'Olotin Temitope',
         ]);
     }
+
+    public function loginAction()
+    {
+        $this->render('auth/login');
+    }
 }
