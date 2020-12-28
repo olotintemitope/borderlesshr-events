@@ -2,9 +2,6 @@
 
 namespace Laztopaz\Controller;
 
-use Laztopaz\Lib\DatabaseConnection;
-use Laztopaz\Models\User;
-
 class HomeController extends BaseController
 {
     public function indexAction()
@@ -23,8 +20,7 @@ class HomeController extends BaseController
         $username = $data['username'];
         $password = $data['password'];
 
-        if ($stmt = $this->db->prepare('SELECT id, password FROM users WHERE username = :username')) {
-            //$stmt->bind_param('s', $username);
+        if ($stmt = $this->db->prepare('SELECT id, role_id, password FROM users WHERE username = :username')) {
             $stmt->execute(['username' => $username]);
             $row = $stmt->fetchAll()[0];
 
@@ -33,13 +29,13 @@ class HomeController extends BaseController
                     $_SESSION['loggedin'] = TRUE;
                     $_SESSION['username'] = $username;
                     $_SESSION['id'] = $row['id'];
-
+                    $_SESSION['isAdmin'] = (int) $row['role_id'] === 1;
                     // Redirect to homepage
                     header('Location: /');
                 }
             }
-            // Incorrect username
-            echo 'Incorrect username and/or password!';
+            $_SESSION['error'] = 'Incorrect username and/or password!';
+            header('Location: /auth/login');
         }
     }
 
