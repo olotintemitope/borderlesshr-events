@@ -31,7 +31,7 @@ class HomeController extends BaseController
                     $_SESSION['id'] = $row['id'];
                     $_SESSION['isAdmin'] = (int) $row['role_id'] === 1;
                     // Redirect to homepage
-                    header('Location: /');
+                    header('Location: /'); exit();
                 }
             }
             $_SESSION['error'] = 'Incorrect username and/or password!';

@@ -25,10 +25,10 @@
                         <span></span><a class="nav-link" href="/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <span></span><a class="nav-link" href="/event">Event</a>
+                        <span></span><a class="nav-link" href="/admin/event">Event</a>
                     </li>
                     <li class="nav-item">
-                        <span></span><a class="nav-link" href="/event-types">Event Types</a>
+                        <span></span><a class="nav-link" href="/admin/event-types">Event Types</a>
                     </li>
                 <?php } ?>
             </ul>
