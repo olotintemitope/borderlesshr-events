@@ -7,10 +7,12 @@ namespace Laztopaz\Controller;
 use Exception;
 use Laztopaz\Controller\Traits\ImageUpload;
 use Laztopaz\PotatoORM\DatabaseHandler;
+use Laztopaz\PotatoORM\TableFieldUndefinedException;
 
 class AdminEventsController extends BaseController
 {
     private $dbHandler;
+    private $dbHandler2;
 
     use ImageUpload;
 
@@ -18,7 +20,8 @@ class AdminEventsController extends BaseController
     {
         parent::__construct();
 
-        $this->dbHandler = new DatabaseHandler('events', $this->db);
+        $this->dbHandler = new DatabaseHandler('events');
+        $this->dbHandler2 = new DatabaseHandler('event_event_types');
     }
 
     public function eventsAction()
@@ -37,12 +40,17 @@ class AdminEventsController extends BaseController
 
     public function eventAction()
     {
-        $this->render('events/create');
+        $eventTypes = $this->dbHandler::read($id=false,'event_types', $this->db);
+
+        $this->render('events/create', [
+            'eventTypes' => $eventTypes,
+        ]);
     }
 
     public function createEventAction($request)
     {
         $data = $request->getBody();
+        $fields = [];
 
         $validateRequest = $this->validateRequest($data);
         [$uploadErrors, $fileName] = $this->upload($_FILES);
@@ -53,24 +61,25 @@ class AdminEventsController extends BaseController
             $_SESSION['error'] = implode("\n", $errors);
 
             header('Location: /admin/event');
-            exit();
+            return;
         }
 
         try {
-            $data['img_cover'] = $fileName;
-            $data['date_opened'] = (new \DateTime($data['date_opened']))->format('Y-m-d');
-            $data['registration_deadline_date'] = (new \DateTime($data['registration_deadline_date']))->format('Y-m-d');
-            $data['user_id'] = $_SESSION['id'];
+            $fields['img_cover'] = $fileName;
+            $fields = $this->setEventData($data, $fields, $fileName);
 
-            $this->dbHandler->create($data, 'events');
+            $this->dbHandler->create($fields, 'events');
+            $lastInsertId = $this->db->lastInsertId();
+
+            $this->addEventTypesToEvent($data, $lastInsertId);
 
             $_SESSION['success'] = 'Event added successfully';
             header('Location: /admin/events');
-            exit();
+            return;
         } catch (Exception $exception) {
             $_SESSION['error'] = $exception->getMessage();
             header('Location: /admin/event');
-            exit();
+            return;
         }
     }
 
@@ -85,11 +94,18 @@ class AdminEventsController extends BaseController
                 $_SESSION['error'] = 'Event not found';
 
                 header('Location: /admin/events');
-                exit();
+                return;
             }
+
+            $eventTypes = $this->dbHandler::read($id=false,'event_types', $this->db);
+            $eventEventTypes = $this->dbHandler2::read($id,'event_event_types', $this->db);
+
+            $evenTypeIds = $this->getEventTypeIds($eventEventTypes);
 
             $this->render('events/edit', [
                 'event' => $events[0],
+                'eventTypes' => $eventTypes,
+                'evenTypeIds' => $evenTypeIds,
             ]);
         } catch (Exception $exception) {
             $_SESSION['error'] = $exception->getMessage();
@@ -136,6 +152,7 @@ class AdminEventsController extends BaseController
         $id = $request->params[0];
         $data = $request->getBody();
         $uploadErrors = [];
+        $fields = [];
 
         $events = $this->dbHandler::read($id, 'events', $this->db);
 
@@ -143,7 +160,7 @@ class AdminEventsController extends BaseController
             $_SESSION['error'] = 'Event not found';
 
             header('Location: /admin/events');
-            exit();
+            return;
         }
 
         if (!empty($_FILES['img_cover']['name'])) {
@@ -158,24 +175,85 @@ class AdminEventsController extends BaseController
             $_SESSION['error'] = implode("\n", $errors);
 
             header('Location: /admin/event');
-            exit();
+            return;
         }
 
         try {
-            $data['date_opened'] = (new \DateTime($data['date_opened']))->format('Y-m-d');
-            $data['registration_deadline_date'] = (new \DateTime($data['registration_deadline_date']))->format('Y-m-d');
-            $data['user_id'] = $_SESSION['id'];
+            $fields = $this->setEventData($data, $fields);
 
-            $this->dbHandler->update(['id' => $id], 'events', $data);
+            $this->dbHandler->update(['id' => $id], 'events', $fields);
+
+            if ($this->deleteEventsFromEventTypes($id)) {
+                $this->addEventTypesToEvent($data, $id);
+            }
 
             $_SESSION['success'] = 'Event updated successfully';
             header('Location: /admin/events');
-            exit();
+            return;
         } catch (Exception $exception) {
             $_SESSION['error'] = $exception->getMessage();
             header('Location: /admin/event');
-            exit();
+            return;
         }
+    }
+
+    /**
+     * @param array $data
+     * @param string $lastInsertId
+     * @throws TableFieldUndefinedException
+     */
+    public function addEventTypesToEvent(array $data, string $lastInsertId): void
+    {
+        $fields = [];
+
+        foreach ($data['event_types'] as $eventType) {
+            $fields['event_type_id'] = $eventType;
+            $fields['event_id'] = $lastInsertId;
+
+            $this->dbHandler2->create($fields, 'event_event_types');
+        }
+    }
+
+    /**
+     * @param array $eventEventTypes
+     * @return mixed
+     */
+    public function getEventTypeIds(array $eventEventTypes)
+    {
+        return array_reduce($eventEventTypes, function ($acc = [], $eventEventType) {
+            $acc[] = $eventEventType['event_type_id'];
+            return $acc;
+        });
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function deleteEventsFromEventTypes($id): bool
+    {
+        $stmt = $this->db->prepare( "DELETE FROM event_event_types WHERE event_id =:event" );
+        $stmt->bindParam(':event', $id);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
+    }
+
+    /**
+     * @param $data
+     * @param array $fields
+     * @return array
+     * @throws Exception
+     */
+    public function setEventData($data, array $fields): array
+    {
+        $fields['title'] = $data['title'];
+        $fields['number_of_participants'] = $data['number_of_participants'];
+        $fields['description'] = $data['description'];
+        $fields['date_opened'] = (new \DateTime($data['date_opened']))->format('Y-m-d');
+        $fields['registration_deadline_date'] = (new \DateTime($data['registration_deadline_date']))->format('Y-m-d');
+        $fields['user_id'] = $_SESSION['id'];
+        return $fields;
     }
 
 }

@@ -22,9 +22,6 @@
                         <a class="nav-link" href="/auth/logout">Logout</a>
                     </li>
                     <li class="nav-item">
-                        <span></span><a class="nav-link" href="/dashboard">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
                         <span></span><a class="nav-link" href="/admin/events">Events</a>
                     </li>
                     <li class="nav-item">

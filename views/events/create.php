@@ -24,6 +24,15 @@
                             <label for="description" class="form-label">Description of event</label>
                             <textarea type="text" name="description" class="form-control" id="description" required></textarea>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="date_opened" class="form-label">Event Types</label>
+                            <select name="event_types[]" class="form-control" id="event_types" required multiple="multiple">
+                                <?php foreach($eventTypes as $eventType) { ?>
+                                    <option value="<?php echo $eventType['id']?>"><?php echo $eventType['type']?></option>
+                                <?php }?>
+                            </select>
+                        </div>
                         <div class="mb-3">
                             <label for="date_opened" class="form-label">Date Open</label>
                             <input type="date" name="date_opened" class="form-control" id="date_opened" required></input>

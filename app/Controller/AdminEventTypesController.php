@@ -51,7 +51,7 @@ class AdminEventTypesController extends BaseController
 
             $_SESSION['success'] = 'Event Type added successfully';
             header('Location: /admin/event-types');
-            exit();
+            return;
         } catch (Exception $exception) {
             $_SESSION['error'] = $exception->getMessage();
         }
@@ -70,7 +70,7 @@ class AdminEventTypesController extends BaseController
                 $_SESSION['error'] = 'Event Type not found';
 
                 header('Location: /admin/event-types');
-                exit();
+                return;
             }
 
             $this->render('event_types/edit', [
@@ -95,7 +95,7 @@ class AdminEventTypesController extends BaseController
                 $_SESSION['error'] = 'Event Type not found';
 
                 header('Location: /admin/event-types');
-                exit();
+                return;
             }
 
             if (empty($data['type'])) {
@@ -109,7 +109,7 @@ class AdminEventTypesController extends BaseController
             $_SESSION['success'] = 'Event Type updated successfully';
 
             header('Location: /admin/event-types');
-            exit();
+            return;
         } catch (Exception $exception) {
             $_SESSION['error'] = $exception->getMessage();
             header('Location: /admin/event-types');

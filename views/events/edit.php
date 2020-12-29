@@ -1,4 +1,4 @@
-<?php $title = 'Create a new event type';?>
+<?php $title = 'Update '. $event['title'];?>
 <?php include_once $viewPath . 'partials/header.php' ?>
 <body>
 <?php include_once $viewPath . 'partials/nav.php' ?>
@@ -23,6 +23,14 @@
                         <div class="mb-3">
                             <label for="description" class="form-label">Description of event</label>
                             <textarea type="text" name="description" class="form-control" id="description" required>value="<?php echo $event['description'];?>"</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date_opened" class="form-label">Event Types</label>
+                            <select name="event_types[]" class="form-control" id="event_types" required multiple="multiple">
+                                <?php foreach($eventTypes as $index => $eventType) { ?>
+                                    <option value="<?php echo $eventType['id']?>" <?php if (in_array($eventType['id'], $evenTypeIds)) { echo "selected";}?>><?php echo $eventType['type']?></option>
+                                <?php }?>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="date_opened" class="form-label">Date Open</label>

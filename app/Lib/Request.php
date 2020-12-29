@@ -22,7 +22,13 @@ class Request
         $body = [];
 
         foreach ($_POST as $key => $value) {
-            $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+            if (is_array($value)) {
+                $body[$key] = $value;
+            }
+
+            if (!is_array($value))  {
+                $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
+            }
         }
 
         return $body;
