@@ -18,7 +18,13 @@
                         </div>
                         <div class="mb-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="<?php echo $eventType['is_premium'];?>" id="is_premium" name="is_premium" onclick="checkPremium();">
+                                <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value="<?php echo $eventType['is_premium'];?>" id="is_premium" name="is_premium"
+                                        onclick="checkPremium();"
+                                        <?php echo (bool) $eventType['is_premium'] ? "checked=checked" : "";?>
+                                >
                                 <label class="form-check-label" for="is_premium">
                                     Is Premium?
                                 </label>
