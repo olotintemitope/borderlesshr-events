@@ -25,7 +25,7 @@
                         <span></span><a class="nav-link" href="/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <span></span><a class="nav-link" href="/admin/event">Event</a>
+                        <span></span><a class="nav-link" href="/admin/events">Events</a>
                     </li>
                     <li class="nav-item">
                         <span></span><a class="nav-link" href="/admin/event-types">Event Types</a>

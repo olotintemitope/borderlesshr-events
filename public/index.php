@@ -5,10 +5,9 @@ error_reporting(E_ALL);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Laztopaz\Controller\{HomeController, AdminEventTypesController};
+use Laztopaz\Controller\{AdminEventsController, HomeController, AdminEventTypesController};
 use Laztopaz\Lib\App;
 use Laztopaz\Lib\Request;
-use Laztopaz\Lib\Response;
 use Laztopaz\Lib\Router;
 
 if (!isset($_SESSION)) {
@@ -49,6 +48,26 @@ Router::get('/admin/event-type/edit/([0-9]*)', function (Request $request) {
 
 Router::post('/admin/event-type/update/([0-9]*)', function (Request $request) {
     (new AdminEventTypesController())->updateEventTypeAction($request);
+});
+
+Router::get('/admin/events', function () {
+    (new AdminEventsController())->eventsAction();
+});
+
+Router::get('/admin/event', function () {
+    (new AdminEventsController())->eventAction();
+});
+
+Router::post('/admin/event/create', function (Request $request) {
+    (new AdminEventsController())->createEventAction($request);
+});
+
+Router::get('/admin/event/edit/([0-9]*)', function (Request $request) {
+    (new AdminEventsController())->editEventAction($request);
+});
+
+Router::post('/admin/event/update/([0-9]*)', function (Request $request) {
+    (new AdminEventsController())->updateEventAction($request);
 });
 
 App::run();
