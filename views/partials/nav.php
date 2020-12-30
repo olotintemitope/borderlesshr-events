@@ -10,6 +10,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/events">Upcoming events</a>
                 </li>
+                <?php if (isset($_SESSION['username']) && $_SESSION['isAdmin']) { ?>
+                    <li class="nav-item">
+                        <span></span><a class="nav-link" href="/admin/events">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <span></span><a class="nav-link" href="/admin/event-types">Event Types</a>
+                    </li>
+                <?php } ?>
                 <li class="nav-item">
                     <?php if (!isset($_SESSION['username'])) { ?>
                         <a class="nav-link" href="/auth/login">Login</a>
@@ -20,12 +28,6 @@
                 <?php if (isset($_SESSION['username'])) { ?>
                     <li class="nav-item">
                         <a class="nav-link" href="/auth/logout">Logout</a>
-                    </li>
-                    <li class="nav-item">
-                        <span></span><a class="nav-link" href="/admin/events">Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <span></span><a class="nav-link" href="/admin/event-types">Event Types</a>
                     </li>
                 <?php } ?>
             </ul>

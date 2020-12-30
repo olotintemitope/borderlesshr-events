@@ -8,6 +8,7 @@ use Exception;
 use Laztopaz\Controller\Traits\ImageUpload;
 use Laztopaz\PotatoORM\DatabaseHandler;
 use Laztopaz\PotatoORM\TableFieldUndefinedException;
+use PDO;
 
 class AdminEventsController extends BaseController
 {
@@ -29,7 +30,7 @@ class AdminEventsController extends BaseController
         try {
             $events = $this->dbHandler::read($id=false,'events', $this->db);
 
-            $this->render('events/list', [
+            $this->render('admin/events/list', [
                 'events' => $events,
             ]);
         } catch (Exception $exception) {
@@ -42,7 +43,7 @@ class AdminEventsController extends BaseController
     {
         $eventTypes = $this->dbHandler::read($id=false,'event_types', $this->db);
 
-        $this->render('events/create', [
+        $this->render('admin/events/create', [
             'eventTypes' => $eventTypes,
         ]);
     }
@@ -97,12 +98,13 @@ class AdminEventsController extends BaseController
                 return;
             }
 
-            $eventTypes = $this->dbHandler::read($id=false,'event_types', $this->db);
-            $eventEventTypes = $this->dbHandler2::read($id,'event_event_types', $this->db);
+            $eventTypes = $this->dbHandler::read(false,'event_types', $this->db);
+
+            $eventEventTypes = $this->getEventEventTypesBy($id);
 
             $evenTypeIds = $this->getEventTypeIds($eventEventTypes);
 
-            $this->render('events/edit', [
+            $this->render('admin/events/edit', [
                 'event' => $events[0],
                 'eventTypes' => $eventTypes,
                 'evenTypeIds' => $evenTypeIds,
@@ -218,8 +220,11 @@ class AdminEventsController extends BaseController
      * @param array $eventEventTypes
      * @return mixed
      */
-    public function getEventTypeIds(array $eventEventTypes)
+    public function getEventTypeIds(array $eventEventTypes): array
     {
+        if (count($eventEventTypes) <= 0) {
+            return [];
+        }
         return array_reduce($eventEventTypes, function ($acc = [], $eventEventType) {
             $acc[] = $eventEventType['event_type_id'];
             return $acc;
@@ -254,6 +259,20 @@ class AdminEventsController extends BaseController
         $fields['registration_deadline_date'] = (new \DateTime($data['registration_deadline_date']))->format('Y-m-d');
         $fields['user_id'] = $_SESSION['id'];
         return $fields;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function getEventEventTypesBy($id): array
+    {
+        $stmt = $this->db->prepare( "SELECT * FROM event_event_types WHERE event_id = :event");
+        $stmt->bindParam(':event', $id);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        return $stmt->fetchAll();
     }
 
 }

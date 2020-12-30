@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Laztopaz\Controller\{AdminEventsController, HomeController, AdminEventTypesController};
+use Laztopaz\Controller\{AdminEventsController, EventController, HomeController, AdminEventTypesController};
 use Laztopaz\Lib\App;
 use Laztopaz\Lib\Request;
 use Laztopaz\Lib\Router;
@@ -68,6 +68,14 @@ Router::get('/admin/event/edit/([0-9]*)', function (Request $request) {
 
 Router::post('/admin/event/update/([0-9]*)', function (Request $request) {
     (new AdminEventsController())->updateEventAction($request);
+});
+
+Router::get('/events', function () {
+    (new EventController())->indexAction();
+});
+
+Router::get('/events/([a-z0-9-]*)', function (Request $request) {
+    (new EventController())->viewAction($request);
 });
 
 App::run();

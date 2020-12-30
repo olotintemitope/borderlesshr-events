@@ -20,7 +20,7 @@ class AdminEventTypesController extends BaseController
         try {
             $eventTypes = $this->dbHandler::read($id=false,'event_types', $this->db);
 
-            $this->render('event_types/list', [
+            $this->render('admin/event_types/list', [
                 'eventTypes' => $eventTypes,
             ]);
         } catch (Exception $exception) {
@@ -32,7 +32,7 @@ class AdminEventTypesController extends BaseController
 
     public function eventTypeAction()
     {
-        $this->render('event_types/create');
+        $this->render('admin/event_types/create');
     }
 
     public function createEventTypeAction(Request $request)
@@ -73,7 +73,7 @@ class AdminEventTypesController extends BaseController
                 return;
             }
 
-            $this->render('event_types/edit', [
+            $this->render('admin/event_types/edit', [
                 'eventType' => $eventType[0],
             ]);
         } catch (Exception $exception) {
