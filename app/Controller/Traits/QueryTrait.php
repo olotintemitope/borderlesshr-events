@@ -120,4 +120,44 @@ trait QueryTrait
         return count($stmt->fetchAll()) > 0;
     }
 
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public function findApplicationByToken(string $token): array
+    {
+        $sql = "SELECT 
+                      at.token
+                FROM attendees at
+                WHERE at.token = '{$token}' 
+            ";
+
+        $stmt = $this->db->prepare( $sql);
+
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * @param string $token
+     * @return bool
+     */
+    public function updateAttendeeByToken(string $token): bool
+    {
+        $confirmed = TRUE;
+
+        $sql = "UPDATE 
+                      attendees at
+                SET at.isConfirmed = {$confirmed}
+                WHERE at.token = '{$token}' 
+            ";
+
+        $stmt = $this->db->prepare( $sql);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
+    }
+
 }

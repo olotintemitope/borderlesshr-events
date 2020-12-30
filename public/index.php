@@ -94,5 +94,9 @@ Router::get('/events/apply/([a-z0-9--]*)', function (Request $request) {
     (new EventController())->applyAction($request);
 });
 
+Router::get('/events/([a-z0-9--]*)/confirm/([a-z0-9]*)', function (Request $request) {
+    (new EventController())->confirmAction($request);
+});
+
 
 App::run();

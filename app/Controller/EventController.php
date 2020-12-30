@@ -99,6 +99,7 @@ class EventController extends BaseController
             $_SESSION['success'] = "You application was successful, pls check your email for the confirmation link";
 
             $link = $host . "/events/{$slug}/confirm/{$token}";
+
             $message = $this->getEmailMessage($link);
             $this->sendEmail($_SESSION['email'], 'Application Confirmation', $message);
         } catch (Exception $exception) {
@@ -141,6 +142,29 @@ class EventController extends BaseController
         $headers .= 'From: <webmaster@example.com>' . "\r\n";
 
         mail($to, $subject, $message, $headers);
+    }
+
+    public function confirmAction(Request $request)
+    {
+        $token = $request->params[1];
+        $slug = $request->params[0];
+
+        $attendee = $this->findApplicationByToken($token);
+
+        if (count($attendee) <= 0) {
+            $_SESSION['error'] = 'Confirmation token is invalid';
+
+            header("Location: /events/{$slug}");
+
+            return;
+        }
+
+        if ($this->updateAttendeeByToken($token)) {
+            $_SESSION['success'] = 'Your attendance has been confirmed';
+            header("Location: /events/{$slug}");
+
+            return;
+        }
     }
 
 }
