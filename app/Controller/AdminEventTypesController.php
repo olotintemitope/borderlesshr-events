@@ -10,6 +10,10 @@ class AdminEventTypesController extends BaseController
 
     public function __construct()
     {
+        if (!isset($_SESSION['id']) || !$_SESSION['isAdmin']) {
+            header('Location: /auth/login');
+        }
+
         parent::__construct();
 
         $this->dbHandler = new DatabaseHandler('event_types', $this->db);

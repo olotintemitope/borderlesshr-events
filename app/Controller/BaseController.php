@@ -4,7 +4,6 @@
 namespace Laztopaz\Controller;
 
 
-use Exception;
 use Laztopaz\Lib\DatabaseConnection;
 
 class BaseController

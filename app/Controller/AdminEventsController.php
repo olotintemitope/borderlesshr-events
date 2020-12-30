@@ -6,6 +6,7 @@ namespace Laztopaz\Controller;
 
 use Exception;
 use Laztopaz\Controller\Traits\ImageUpload;
+use Laztopaz\Enum\Role;
 use Laztopaz\PotatoORM\DatabaseHandler;
 use Laztopaz\PotatoORM\TableFieldUndefinedException;
 use PDO;
@@ -19,6 +20,10 @@ class AdminEventsController extends BaseController
 
     public function __construct()
     {
+        if (!isset($_SESSION['id']) || !$_SESSION['isAdmin']) {
+            header('Location: /auth/login');
+        }
+
         parent::__construct();
 
         $this->dbHandler = new DatabaseHandler('events');

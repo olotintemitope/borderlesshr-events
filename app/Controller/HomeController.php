@@ -75,8 +75,11 @@ class HomeController extends BaseController
 
     public function logoutAction()
     {
-        session_destroy();
+        $_SESSION = [];
+
         unset($_SESSION['loggedin'], $_SESSION['username'], $_SESSION['id']);
+
+        session_destroy();
 
         header('Location: /');
     }
