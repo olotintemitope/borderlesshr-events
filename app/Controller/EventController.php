@@ -44,9 +44,11 @@ class EventController extends BaseController
         }
 
         $event = $this->getEvents($id);
+        $applied = $this->hasUserAppliedToEvent($_SESSION['id'], $id);
 
         $this->render('events/view', [
-            'event' => $event[0]
+            'event' => $event[0],
+            'applied' => $applied,
         ]);
     }
 
@@ -97,7 +99,6 @@ class EventController extends BaseController
             $_SESSION['success'] = "You application was successful, pls check your email for the confirmation link";
 
             $link = $host . "/events/{$slug}/confirm/{$token}";
-
             $message = $this->getEmailMessage($link);
             $this->sendEmail($_SESSION['email'], 'Application Confirmation', $message);
         } catch (Exception $exception) {

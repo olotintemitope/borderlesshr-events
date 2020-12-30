@@ -31,8 +31,12 @@
                                     }?>
                             <p><?php if ($isClosed) { echo "Application closed";} else { echo "<span class='badge bg-light text-dark'>".(new \DateTime($event['registration_deadline_date']))->format('Y-m-d'). "</span>"; }?></p>
                             <p>
-                                <?php if (!$isClosed &&  (new \DateTime()) >= (new \DateTime($event['date_opened']))) {?>
+                                <?php if (!$isClosed && (new \DateTime()) >= (new \DateTime($event['date_opened']))) {?>
+                                        <?php if (!$applied) { ?>
                                     <a href="/events/apply/<?php echo strtolower(str_replace(" ", "-", $event['title'])) . '--'.$event['id'] ?>" class="btn btn-warning text-white">Apply</a>
+                                            <?php } else {?>
+                                        <button type="button" class="btn btn-default">Applied</button>
+                                        <?php } ?>
                                 <?php } else {?>
                                     <span class='badge bg-light text-dark'>Application will open on: <?php echo (new \DateTime($event['date_opened']))->format('Y-m-d') ?></span>
                                 <?php } ?>

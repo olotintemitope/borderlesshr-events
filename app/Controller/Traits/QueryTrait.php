@@ -98,4 +98,26 @@ trait QueryTrait
         return $stmt->fetchAll();
     }
 
+    /**
+     * @param int $userId
+     * @param int $eventId
+     * @return bool
+     */
+    public function hasUserAppliedToEvent(int $userId, int $eventId): bool
+    {
+        $sql = "SELECT 
+                      at.id
+                FROM attendees at
+                WHERE at.user_id = {$userId} 
+                   AND at.event_id = {$eventId}
+            ";
+
+        $stmt = $this->db->prepare( $sql);
+
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        return count($stmt->fetchAll()) > 0;
+    }
+
 }
