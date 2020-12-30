@@ -22,6 +22,10 @@ Router::get('/auth/login', function () {
     (new HomeController())->loginAction();
 });
 
+Router::get('/auth/register', function () {
+    (new HomeController())->registerAction();
+});
+
 Router::post('/auth/login', function (Request $request) {
     (new HomeController())->processLoginAction($request);
 });
@@ -80,6 +84,10 @@ Router::get('/events/([a-z0-9-]*)', function (Request $request) {
 
 Router::get('/events/search/([?=A-Za-z0-9-]*)', function (Request $request) {
     (new EventController())->searchAction($request);
+});
+
+Router::get('/events/apply/([a-z0-9-]*)', function (Request $request) {
+    (new EventController())->applyAction($request);
 });
 
 

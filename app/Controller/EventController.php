@@ -52,6 +52,28 @@ class EventController extends BaseController
         $this->render('events/search', [
             'events' => $events
         ]);
+
+    }
+
+    public function applyAction($request)
+    {
+        $slug = $request->params[0];
+        $splitSlug = explode("--", $slug);
+        $id = count($splitSlug) > 1 ? end($splitSlug) : 0;
+
+        if ($id === 0) {
+            header('Location: /events');
+            return;
+        }
+
+        if (!$_SESSION['loggedin']) {
+            header('Location: /auth/login');
+            return;
+        }
+
+        $this->render('events/search', [
+            'events' => $events
+        ]);
     }
 
 }

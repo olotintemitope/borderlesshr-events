@@ -19,7 +19,12 @@
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" name="password" class="form-control" id="password" required/>
                             </div>
+
                             <button type="submit" class="btn btn-primary" name="submit">Login</button>
+                            <p class="text-right w-100">
+                                <span class="form-text"">New to this platform? <a href="/auth/register" class="stretched-link text-right">Signup</a></span>
+
+                            </p>
                         </form>
                     </div>
                 </div>

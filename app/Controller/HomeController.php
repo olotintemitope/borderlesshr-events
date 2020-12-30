@@ -22,6 +22,12 @@ class HomeController extends BaseController
         $this->render('auth/login');
     }
 
+
+    public function registerAction()
+    {
+        $this->render('auth/register');
+    }
+
     public function processLoginAction($request)
     {
         $data = $request->getBody();
