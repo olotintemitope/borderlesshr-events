@@ -21,7 +21,7 @@
                                                 <p class="card-text lh-8 text-black-50"><?php echo substr($event['description'], 0, 600) . "...";?></p>
                                                 <p class="flex align-items-end">
                                                     <?php foreach (explode(",", $event['types']) as $type) {?>
-                                                        <span class="badge rounded-pill bg-primary"><?php echo $type;?></span>
+                                                        <span class="badge rounded-pill <?php echo in_array($type, $specialEvents) ? "bg-danger" : "bg-primary";?>"><?php echo $type;?></span>
                                                     <?php } ?>
                                                 </p>
                                             </div>
