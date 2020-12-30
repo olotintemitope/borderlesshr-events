@@ -78,4 +78,9 @@ Router::get('/events/([a-z0-9-]*)', function (Request $request) {
     (new EventController())->viewAction($request);
 });
 
+Router::get('/events/search/([?=A-Za-z0-9-]*)', function (Request $request) {
+    (new EventController())->searchAction($request);
+});
+
+
 App::run();

@@ -2,11 +2,19 @@
 
 namespace Laztopaz\Controller;
 
+use Laztopaz\Controller\Traits\QueryTrait;
+
 class HomeController extends BaseController
 {
+    use QueryTrait;
+
     public function indexAction()
     {
-        $this->render('index');
+        $events = $this->getEvents();
+
+        $this->render('index', [
+            'events' => $events
+        ]);
     }
 
     public function loginAction()

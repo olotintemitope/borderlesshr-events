@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse float-right" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/events">Upcoming events</a>
+                    <a class="nav-link" href="/events">Upcoming Events</a>
                 </li>
                 <?php if (isset($_SESSION['username']) && $_SESSION['isAdmin']) { ?>
                     <li class="nav-item">
@@ -25,6 +25,10 @@
                         <a class="nav-link">Welcome <?php echo $_SESSION['username']; ?></a>
                     <?php } ?>
                 </li>
+                <form class="d-flex" action="/events/search/" method="get">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
                 <?php if (isset($_SESSION['username'])) { ?>
                     <li class="nav-item">
                         <a class="nav-link" href="/auth/logout">Logout</a>
