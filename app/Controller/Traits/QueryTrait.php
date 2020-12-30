@@ -24,13 +24,14 @@ trait QueryTrait
                       et.date_opened, 
                       et.registration_deadline_date,
                       ep.is_premium,
+                      ee.event_id,
                       GROUP_CONCAT(ep.type) As types
                        
                 FROM event_event_types ee 
                     JOIN events et ON et.id = ee.event_id  
                     JOIN event_types ep ON ep.id=ee.event_type_id  
                 GROUP BY ee.event_id, ep.is_premium
-                ORDER BY et.registration_deadline_date  
+                ORDER BY et.registration_deadline_date
             "
 
             : "SELECT
@@ -42,6 +43,7 @@ trait QueryTrait
                       et.date_opened, 
                       et.registration_deadline_date, 
                       ep.is_premium,
+                      ee.event_id,
                       GROUP_CONCAT(ep.type, '') As types
                 FROM event_event_types ee 
                     JOIN events et ON et.id = ee.event_id  

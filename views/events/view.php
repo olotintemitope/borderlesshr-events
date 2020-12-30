@@ -6,6 +6,7 @@
     <div class="row">
         <div class="col-10 mx-auto">
             <h2 class="mt-5 mb-5"><?php echo $event['title']; ?></h2>
+            <?php include_once $viewPath . 'flash/messages.php' ?>
             <div class="row">
                 <div class="col">
                     <?php if ($event['is_premium']) {?>

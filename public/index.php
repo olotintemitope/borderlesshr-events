@@ -30,6 +30,10 @@ Router::post('/auth/login', function (Request $request) {
     (new HomeController())->processLoginAction($request);
 });
 
+Router::post('/auth/create-account', function (Request $request) {
+    (new HomeController())->processRegisterAction($request);
+});
+
 Router::get('/auth/logout', function () {
     (new HomeController())->logoutAction();
 });
@@ -82,11 +86,11 @@ Router::get('/events/([a-z0-9-]*)', function (Request $request) {
     (new EventController())->viewAction($request);
 });
 
-Router::get('/events/search/([?=A-Za-z0-9-]*)', function (Request $request) {
+Router::get('/events/search/([?=A-Za-z0-9]+)', function (Request $request) {
     (new EventController())->searchAction($request);
 });
 
-Router::get('/events/apply/([a-z0-9-]*)', function (Request $request) {
+Router::get('/events/apply/([a-z0-9--]*)', function (Request $request) {
     (new EventController())->applyAction($request);
 });
 

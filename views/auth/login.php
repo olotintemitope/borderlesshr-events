@@ -11,9 +11,8 @@
                     <div class="card-body">
                         <form method="post" action="/auth/login" enctype="application/x-www-form-urlencoded">
                             <div class="mb-3">
-                                <label for="email" class="form-label">Username</label>
-                                <input type="email" name="username" class="form-control" id="email" aria-describedby="emailHelp" required/>
-                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" name="username" class="form-control" id="username" required/>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
@@ -21,10 +20,11 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary" name="submit">Login</button>
-                            <p class="text-right w-100">
-                                <span class="form-text"">New to this platform? <a href="/auth/register" class="stretched-link text-right">Signup</a></span>
 
+                            <p class="text-right w-100">
+                                <span class="form-text">New to this platform? <a href="/auth/register" class="link">Signup</a></span>
                             </p>
+
                         </form>
                     </div>
                 </div>
