@@ -44,7 +44,13 @@ class EventController extends BaseController
         }
 
         $event = $this->getEvents($id);
-        $applied = $this->hasUserAppliedToEvent($_SESSION['id'], $id);
+
+        $applied = false;
+
+        if (isset($_SESSION['id'])) {
+            $applied = $this->hasUserAppliedToEvent($_SESSION['id'], $id);
+        }
+
 
         $this->render('events/view', [
             'event' => $event[0],
