@@ -20,9 +20,7 @@ class AdminEventsController extends BaseController
 
     public function __construct()
     {
-        if (!isset($_SESSION['id']) || !$_SESSION['isAdmin']) {
-            header('Location: /auth/login');
-        }
+        $this->middleware();
 
         parent::__construct();
 
@@ -279,5 +277,4 @@ class AdminEventsController extends BaseController
 
         return $stmt->fetchAll();
     }
-
 }

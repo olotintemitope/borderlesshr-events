@@ -42,6 +42,12 @@ class BaseController
             print $output;
         }
         return $output;
+    }
 
+    public function middleware(): void
+    {
+        if (!isset($_SESSION['id']) || !$_SESSION['isAdmin']) {
+            header('Location: /auth/login');
+        }
     }
 }
