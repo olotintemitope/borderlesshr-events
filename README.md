@@ -1,6 +1,8 @@
 # Event Manager
 
 ## How to set up the application
+- git clone `https://github.com/olotintemitope/borderlesshr-events.git`
+- Run `composer install`
 - This application uses docker to setup a consistent running environment
 - Download and install docker
 
