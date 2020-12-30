@@ -7,7 +7,6 @@
         <div class="col-10 mx-auto">
             <h2 class="mt-5 mb-5">Events</h2>
             <div class="row row-cols-1 row-cols-md-3 g-4">
-
                 <?php if (count($events) > 0) {?>
                         <?php foreach ($events as $event) {?>
                         <a class="text-decoration-none" href="/events/<?php echo strtolower(str_replace(" ", "-", $event['title'])) . '--'.$event['id'] ?>" title="<?php echo $event['title'];?>">
@@ -19,9 +18,12 @@
                                         <p class="card-text lh-8 text-black-50"><?php echo substr($event['description'], 0, 600) . "...";?></p>
                                         <p class="flex align-items-end">
                                         <?php foreach (explode(",", $event['types']) as $type) {?>
-                                            <span class="badge rounded-pill bg-primary"><?php echo $type;?></span>
+                                            <span class="badge rounded-pill <?php echo in_array($type, $specialEvents) ? "bg-danger" : "bg-primary";?>"><?php echo $type;?></span>
                                         <?php } ?>
                                         </p>
+                                        <?php if ($event['is_premium']) {?>
+                                            <p class="float-right text-right"><span class="badge rounded-pill bg-warning"><i class="fa fa-star fa-2x"></i></span></p>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>

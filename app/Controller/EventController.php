@@ -3,11 +3,8 @@
 
 namespace Laztopaz\Controller;
 
-
 use Laztopaz\Controller\Traits\QueryTrait;
 use Laztopaz\Lib\Request;
-use Laztopaz\PotatoORM\DatabaseHandler;
-use PDO;
 
 class EventController extends BaseController
 {
